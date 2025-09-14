@@ -12,8 +12,7 @@ import 'package:t_store/common/widgets/components/project_component/shadowCard.d
 import 'package:t_store/data/repositories/demo.dart';
 import 'package:t_store/features/store/controllers/Profile_controller.dart';
 import 'package:t_store/utility/constants/colors.dart';
-import 'package:t_store/utility/constants/images_strings.dart';
-import 'package:t_store/utility/constants/size.dart';
+  import 'package:t_store/utility/constants/size.dart';
 import 'package:t_store/utility/helpers/helper_functions.dart';
 import 'package:t_store/features/store/views/productDetail/Product_detail.dart';
 
@@ -46,9 +45,6 @@ class _TProductCardState extends State<TProductCard> {
               builder: (context) => ProductDetail(
                     index: widget.index,
                     firstProducts: widget.firstProducts,
-                    // productName: widget.firstProducts[widget.index]["product"]
-                    //     ['name'],
-                    // brand: widget.firstProducts[widget.index]["brand"],
                   )),
         );
       },
@@ -66,18 +62,19 @@ class _TProductCardState extends State<TProductCard> {
               showBorder: false,
               height: 180,
               backgroundColor: dark ? TColors.dark : TColors.light,
-              child: const Stack(
+              child: Stack(
                 children: [
                   TSlider(
-                    imageUrl: TImages.productImage2,
+                    imageUrl: (widget.firstProducts[widget.index]["product"]
+                        ['image'] as List)[0],
                     backgroundColor: Colors.white,
                     applyImageRadius: true,
                   ),
 
-                  DiscountCard(),
+                  const DiscountCard(),
 
                   // Like button
-                  Positioned(top: 5, right: 10, child: FavouriteButton()),
+                  const Positioned(top: 5, right: 10, child: FavouriteButton()),
                 ],
               ),
             ),

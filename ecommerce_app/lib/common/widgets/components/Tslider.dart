@@ -4,15 +4,16 @@ import 'package:t_store/utility/constants/size.dart';
 class TSlider extends StatelessWidget {
   const TSlider({
     super.key,
-     this.width,
-     this.height,
+    this.width,
+    this.height,
     required this.imageUrl,
-     this.applyImageRadius=false,
+    this.applyImageRadius = false,
     required this.backgroundColor,
     this.fit,
     this.padding,
-     this.isNetworkImage=false,
-    this.onPressed,  this.border,
+    this.isNetworkImage = false,
+    this.onPressed,
+    this.border,
   });
   final double? width, height;
   final String imageUrl;
@@ -32,14 +33,19 @@ class TSlider extends StatelessWidget {
         width: width,
         height: height,
         padding: padding,
-
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(TSizes.md),border: border,color: backgroundColor),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(TSizes.md),
+            border: border,
+            color: backgroundColor),
         child: ClipRRect(
-            borderRadius: applyImageRadius? BorderRadius.circular(TSizes.md):BorderRadius.zero,
-            child:  Image(
-
+            borderRadius: applyImageRadius
+                ? BorderRadius.circular(TSizes.md)
+                : BorderRadius.zero,
+            child: Image(
               fit: fit,
-              image:isNetworkImage? NetworkImage(imageUrl):AssetImage(imageUrl) as ImageProvider,
+              image: isNetworkImage
+                  ? NetworkImage(imageUrl)
+                  : AssetImage(imageUrl) as ImageProvider,
             )),
       ),
     );

@@ -1,25 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:t_store/Screens/pages/productSliderImages.dart';
 import 'package:t_store/common/favourite_button.dart';
+import 'package:t_store/common/widgets/components/product_card/controller/product_controller.dart';
 import 'package:t_store/features/store/views/productDetail/product_attributes.dart';
 import 'package:t_store/features/store/views/productDetail/product_meta_data.dart';
 import 'package:t_store/features/store/views/productDetail/widget/TRatingandShare.dart';
 import 'package:t_store/common/widgets/appBar.dart';
 import 'package:t_store/features/store/views/productDetail/widget/add_to_cart.dart';
 import 'package:t_store/utility/constants/colors.dart';
-import 'package:t_store/utility/constants/images_strings.dart';
 import 'package:t_store/utility/constants/size.dart';
 import 'package:t_store/utility/helpers/helper_functions.dart';
 
 class ProductDetail extends StatefulWidget {
-  ProductDetail(
-      {super.key,
-      // required this.productName,
-      // required this.brand,
-      required this.firstProducts,
-      required this.index});
-  // final String productName;
-  // final String brand;
+  ProductDetail({super.key, required this.firstProducts, required this.index});
+
   List<Map<String, dynamic>> firstProducts;
   final int index;
 
@@ -29,21 +24,22 @@ class ProductDetail extends StatefulWidget {
 
 class _ProductDetailState extends State<ProductDetail> {
   // Store the selected image
-  String selectedImage = TImages.productImage1;
+  late String selectedImage;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedImage = widget.firstProducts[widget.index]["product"]['name'];
+  }
 
   @override
   Widget build(BuildContext context) {
     final bool dark = THelperFunctions.isDarkMode(context);
+    final products = Get.find<ProductController>().allProducts;
 
     // List of images for the horizontal slider
-    final List<String> imageList = [
-      TImages.productImage1,
-      TImages.productImage2,
-      TImages.productImage3,
-      TImages.productImage4,
-      TImages.productImage5,
-      TImages.productImage10,
-    ];
+    final List<String> imageList =
+        products[widget.index][products][widget.index]["image"];
 
     return Scaffold(
       body: SafeArea(
@@ -135,8 +131,6 @@ class _ProductDetailState extends State<ProductDetail> {
                       TProductMetaData(
                         firstProducts: widget.firstProducts,
                         index: widget.index,
-                        // productName: widget.productName,
-                        // brand: widget.brand,
                       ),
                       const SizedBox(height: TSizes.spaceBtwItems),
 
