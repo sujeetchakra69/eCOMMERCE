@@ -21,6 +21,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
+  ProductController productController = Get.put(ProductController());
+  late final firstProduct = productController.firstProducts;
 
   @override
   Widget build(BuildContext context) {
@@ -33,23 +35,14 @@ class _HomeScreenState extends State<HomeScreen> {
             //Carousel Slider
 
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: TSizes.sm),
+              padding: const EdgeInsets.symmetric(horizontal: TSizes.sm - 6),
               child: Column(
                 children: [
                   CarouselSlider(
                     items: const [
-                      Padding(
-                        padding: EdgeInsets.all(2.0),
-                        child: SliderItem(name: TImages.promoBanner1),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(2.0),
-                        child: SliderItem(name: TImages.promoBanner2),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(2.0),
-                        child: SliderItem(name: TImages.promoBanner3),
-                      ),
+                      SliderItem(name: TImages.promoBanner1),
+                      SliderItem(name: TImages.promoBanner2),
+                      SliderItem(name: TImages.promoBanner3),
                     ],
                     options: CarouselOptions(
                       viewportFraction: 1,
@@ -67,21 +60,24 @@ class _HomeScreenState extends State<HomeScreen> {
                   TCategories(
                     title: 'Popular Product',
                     onPressed: () {
-                      Get.to(const Allproduct());
+                      Get.to(() => const Allproduct());
                     },
                     showActionButton: true,
                   ),
                   //gridview
-                  ProductGridView(itemBuilder: (_, index) {
-                    Get.put(ProductController());
-                    final firstProducts =
-                        Get.find<ProductController>().firstProducts;
+                  ProductGridView(
+                    itemBuilder: (_, index) {
+                      if (firstProduct.isEmpty) {
+                        return const SizedBox.shrink(); // prevent null crash
+                      }
 
-                    return TProductCard(
-                      firstProducts: firstProducts,
-                      index: index,
-                    );
-                  }),
+                      return TProductCard(
+                        allProducts: firstProduct,
+                        index: index,
+                      );
+                    },
+                    itemCount: firstProduct.length,
+                  ),
                 ],
               ),
             ),
@@ -101,10 +97,13 @@ class SliderItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TSlider(
-      imageUrl: name,
-      backgroundColor: Colors.white,
-      border: null,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 2.0),
+      child: TSlider(
+        imageUrl: name,
+        backgroundColor: Colors.white,
+        border: null,
+      ),
     );
   }
 }

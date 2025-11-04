@@ -13,7 +13,7 @@ import 'package:t_store/utility/helpers/helper_functions.dart';
 class TBrandCard extends StatelessWidget {
   TBrandCard({super.key, required this.products, required this.index});
 
-  List<Map<String, dynamic>> products;
+  final List<Map<String, dynamic>> products;
   final int index;
 
   @override
@@ -21,7 +21,7 @@ class TBrandCard extends StatelessWidget {
     final bool dark = THelperFunctions.isDarkMode(context);
     return GestureDetector(
       onTap: () {
-        Get.to(const Brandproduct());
+        Get.to( Brandproduct(products: products,));
         // Action for card tap
       },
       child: Container(

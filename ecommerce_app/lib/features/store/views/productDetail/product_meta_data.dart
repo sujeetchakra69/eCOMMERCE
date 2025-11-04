@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import 'package:t_store/common/widgets/components/DiscountCArd.dart';
@@ -13,12 +12,12 @@ class TProductMetaData extends StatelessWidget {
       {super.key,
       // required this.productName,
       // required this.brand,
-      required this.firstProducts,
+      required this.product,
       required this.index});
   // final String productName;
   // final String brand;
   final int index;
-  List<Map<String, dynamic>> firstProducts;
+  Map<String, dynamic> product;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +35,7 @@ class TProductMetaData extends StatelessWidget {
             //Price
 
             Text(
-              '\$${firstProducts[index]["product"]["price"] + 80}',
+              '\$${product["price"] + 80}',
               style: Theme.of(context).textTheme.titleSmall!.apply(
                   color: TColors.dark, decoration: TextDecoration.lineThrough),
             ),
@@ -44,7 +43,7 @@ class TProductMetaData extends StatelessWidget {
               width: TSizes.sm,
             ),
             Text(
-              '\$${firstProducts[index]["product"]["price"]}',
+              '\$${product["price"]}',
               style: Theme.of(context).textTheme.titleLarge!.apply(
                     color: TColors.dark,
                   ),
@@ -53,7 +52,7 @@ class TProductMetaData extends StatelessWidget {
         ),
         const SizedBox(height: 20),
         ProductTitleText(
-          name: firstProducts[index]["product"]["name"],
+          name: product["name"],
           smallSize: true,
           colors: TColors.dark,
         ),
@@ -76,19 +75,19 @@ class TProductMetaData extends StatelessWidget {
           ],
         ),
         const SizedBox(height: TSizes.spaceBtwItems),
-        Row(
-          children: [
-            CircularImage(
-              image: "${firstProducts[index]["logo"]}",
-              height: 50,
-              width: 50,
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            BrandVerification(title: firstProducts[index]["brand"]),
-          ],
-        ),
+        // Row(
+        //   children: [
+        //     CircularImage(
+        //       image: "${product["logo"]}",
+        //       height: 50,
+        //       width: 50,
+        //     ),
+        //     const SizedBox(
+        //       width: 10,
+        //     ),
+        //     BrandVerification(title: product["brand"]),
+        //   ],
+        // ),
       ],
     );
   }

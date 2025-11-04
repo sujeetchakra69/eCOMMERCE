@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:t_store/common/widgets/common_shapes.dart';
 import 'package:t_store/common/widgets/components/TCategories.dart';
 import 'package:t_store/common/widgets/curvededges.dart';
+import 'package:t_store/features/authentication/controllers/login_controller.dart';
 import 'package:t_store/features/store/controllers/Profile_controller.dart';
 import 'package:t_store/features/store/views/Profile/Listitle.dart';
 import 'package:t_store/features/store/views/Profile/components/My_address/Addresses.dart';
@@ -107,7 +110,6 @@ class ProfileScreen extends StatelessWidget {
                       onTap: () {
                         Get.to(() => const MyCart());
                       },
-
                       child: const ProfileListTile(
                         icon: Iconsax.shopping_cart5,
                         title: 'My Cart',
@@ -116,7 +118,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: TSizes.spaceBtwItems),
                     GestureDetector(
-                      onTap: ()=> Get.to( const MyOrder()),
+                      onTap: () => Get.to(const MyOrder()),
                       child: const ProfileListTile(
                         icon: Iconsax.bag_tick,
                         title: 'My Orders',
@@ -201,9 +203,21 @@ class ProfileScreen extends StatelessWidget {
                           ),
                         )),
                     const SizedBox(height: TSizes.spaceBtwItems),
+                    Center(
+                      child: ElevatedButton(
+                          onPressed: () {
+                            final LoginController loginController =
+                                Get.put(LoginController());
+                            loginController.logoutUser();
+                          },
+                          child: const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 20.0),
+                            child: Text('Logout'),
+                          )),
+                    ),
                   ],
                 ),
-              ),
+              )
             ]),
           ),
         ],

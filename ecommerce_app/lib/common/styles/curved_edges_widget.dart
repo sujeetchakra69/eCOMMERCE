@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:t_store/Screens/pages/subCategories.dart';
@@ -16,9 +18,10 @@ class CurvedEdgesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugger();
     Get.put(ProductController());
     final ProductController productController = Get.find<ProductController>();
-    final item = productController.allProducts;
+    final item = productController.brandProducts;
 
     return ClipPath(
         clipper: TCustomCurveEdges(),
@@ -68,10 +71,13 @@ class CurvedEdgesWidget extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (_, index) {
                           return GestureDetector(
-                            onTap: () => Get.to(() => Subcategories(
-                                  index: index,
-                                  brand: item,
-                                )),
+                            onTap: () {
+                              debugger();
+                              Get.to(() => Subcategories(
+                                    index: index,
+                                    brand: item,
+                                  ));
+                            },
                             child: VerticalImageText(
                               brands: item,
                               index: index,

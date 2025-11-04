@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:t_store/common/tadBar.dart';
 import 'package:t_store/common/widgets/CustomSearch.dart';
 import 'package:t_store/common/widgets/components/TCategories.dart';
-import 'package:t_store/features/store/views/store/components/FeatureBrand.dart';
+import 'package:t_store/features/store/views/store/components/featureBrand.dart';
 import 'package:t_store/features/store/views/store/components/allBrands.dart';
 import 'package:t_store/features/store/views/store/components/tabBar.dart';
 import 'package:t_store/utility/constants/colors.dart';
@@ -11,9 +11,11 @@ import 'package:t_store/utility/constants/size.dart';
 import 'package:t_store/utility/helpers/helper_functions.dart';
 
 class GridViewStore extends StatelessWidget {
-  GridViewStore({super.key, required this.products, required this.index});
+  GridViewStore({
+    super.key,
+    required this.products,
+  });
   List<Map<String, dynamic>> products;
-  final int index;
 
   @override
   Widget build(BuildContext context) {
@@ -42,19 +44,18 @@ class GridViewStore extends StatelessWidget {
                         const CustomSearch(),
                         const SizedBox(height: TSizes.spaceBtwSections),
                         TCategories(
-                          title: 'Featured Brands',
+                          title: 'Feature Brands',
                           onPressed: () {
                             Get.to(Allbrands(
                               products: products,
-                              index: index,
                             ));
                           },
                         ),
                         const SizedBox(height: TSizes.spaceBtwSections),
                         // GridView within SliverAppBar
-                        const Expanded(
+                        Expanded(
                           child: FeaturedBrandStore(
-                            itemcount: 4,
+                            products: products,
                           ),
                         ),
                       ],
@@ -78,7 +79,6 @@ class GridViewStore extends StatelessWidget {
             children: [
               //sports tab
               Tab_Bar(),
-              // Additional TabBarView items can go here
               //furniture tab
               Center(child: Text('Furniture')),
               //Electronics tab

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:t_store/Screens/SignUp.dart';
+import 'package:t_store/Screens/signUp.dart';
 import 'package:t_store/Screens/login_page.dart';
 import 'package:t_store/utility/constants/images_strings.dart';
 import 'package:t_store/utility/constants/size.dart';

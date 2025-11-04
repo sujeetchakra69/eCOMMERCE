@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:t_store/common/widgets/appBar.dart';
 import 'package:t_store/common/widgets/components/singleCardHorizontal.dart';
@@ -11,6 +13,7 @@ class Subcategories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currentBrand = brand[index];
+    log(currentBrand.toString());
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -37,12 +40,13 @@ class Subcategories extends StatelessWidget {
                 height: 150,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: currentBrand["products"].length,
+                  itemCount: currentBrand["product"].length,
                   itemBuilder: (context, index) {
-                    final product = currentBrand["products"][index];
+                    final product = currentBrand["product"][index];
                     return Padding(
                       padding: const EdgeInsets.only(right: 10.0),
                       child: Singlecardhorizontal(
+                        brandindex: index,
                         product: product,
                         brand: currentBrand["brand"],
                       ),

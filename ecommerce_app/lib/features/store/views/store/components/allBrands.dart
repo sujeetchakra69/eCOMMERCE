@@ -1,13 +1,18 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:t_store/common/widgets/appBar.dart';
-import 'package:t_store/features/store/views/store/components/FeatureBrand.dart';
+import 'package:t_store/features/store/views/store/components/featureBrand.dart';
 
 class Allbrands extends StatelessWidget {
-  Allbrands({super.key, required this.products, required this.index});
+  Allbrands({
+    super.key,
+    required this.products,
+  });
   List<Map<String, dynamic>> products;
-  final int index;
   @override
   Widget build(BuildContext context) {
+    debugger();
     return Scaffold(
       appBar: const CustomAppBar(
         showBackArrow: true,
@@ -19,7 +24,7 @@ class Allbrands extends StatelessWidget {
           child: Column(
             children: [
               FeaturedBrandStore(
-                itemcount: products.length,
+                products: products,
               ),
             ],
           ),

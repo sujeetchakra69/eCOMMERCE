@@ -18,7 +18,8 @@ class DiscountCard extends StatelessWidget {
         ),
         height: 180 * 0.20, // 20% of the container's height
         padding: const EdgeInsets.symmetric(
-            horizontal: TSizes.sm, vertical: TSizes.sm),
+          horizontal: 2,
+        ),
         child: Center(
           child: Text(
             '25% off',

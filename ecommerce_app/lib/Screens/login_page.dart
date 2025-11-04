@@ -1,20 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:t_store/Screens/Passwordchange.dart';
-import 'package:t_store/Screens/SignUp.dart';
+import 'package:t_store/Screens/passwordChange.dart';
+import 'package:t_store/Screens/signUp.dart';
+import 'package:t_store/features/authentication/controllers/login_controller.dart';
 import 'package:t_store/navigation.dart';
 import 'package:t_store/utility/constants/images_strings.dart';
 import 'package:t_store/utility/constants/text_string.dart';
 import 'package:t_store/utility/helpers/helper_functions.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final controller = Get.put(LoginController());
+  bool obscurePassword = true;
 
   @override
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
-    
+
     // Get screen width and height for responsiveness
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
@@ -38,7 +49,7 @@ class LoginPage extends StatelessWidget {
           ),
           child: Padding(
             padding: EdgeInsets.symmetric(
-              vertical: screenHeight * 0.05, 
+              vertical: screenHeight * 0.05,
               horizontal: screenWidth * 0.08,
             ),
             child: Column(
@@ -47,16 +58,19 @@ class LoginPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Image(
-                      height: screenHeight * 0.1, // Adjust image height based on screen height
+                      height: screenHeight *
+                          0.1, // Adjust image height based on screen height
                       image: AssetImage(
                         dark ? TImages.lightAppLogo : TImages.darkAppLogo,
                       ),
                     ),
                     Text(
                       TTexts.loginTitle,
-                      style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                            fontSize: screenWidth * 0.08, // Responsive font size
-                          ),
+                      style:
+                          Theme.of(context).textTheme.headlineLarge?.copyWith(
+                                fontSize:
+                                    screenWidth * 0.08, // Responsive font size
+                              ),
                     ),
                     SizedBox(height: screenHeight * 0.01), // Responsive spacing
                     Text(
@@ -71,6 +85,7 @@ class LoginPage extends StatelessWidget {
                     children: [
                       // Email
                       TextFormField(
+                        controller: _emailController,
                         decoration: const InputDecoration(
                           prefix: Icon(Iconsax.personalcard),
                           labelText: TTexts.email,
@@ -80,12 +95,21 @@ class LoginPage extends StatelessWidget {
                       SizedBox(height: screenHeight * 0.02), // Responsive space
                       // Password
                       TextFormField(
-                        decoration: const InputDecoration(
-                          prefix: Icon(Iconsax.lock),
+                        controller: _passwordController,
+                        decoration: InputDecoration(
+                          prefix: const Icon(Iconsax.lock),
                           labelText: TTexts.password,
-                          border: OutlineInputBorder(),
-                          suffixIcon: Icon(Iconsax.eye_slash),
+                          border: const OutlineInputBorder(),
+                          suffixIcon: InkWell(
+                            child: const Icon(Iconsax.eye_slash),
+                            onTap: () {
+                              setState(() {
+                                obscurePassword = !obscurePassword;
+                              });
+                            },
+                          ),
                         ),
+                        obscureText: obscurePassword,
                       ),
                     ],
                   ),
@@ -93,12 +117,11 @@ class LoginPage extends StatelessWidget {
                 SizedBox(height: screenHeight * 0.02), // Responsive space
                 Row(
                   children: [
-                    // Remember me
                     Row(
                       children: [
                         Checkbox(
                           value: false,
-                          onChanged: (Value) {},
+                          onChanged: (value) {},
                         ),
                         Text(
                           TTexts.rememberMe,
@@ -117,7 +140,13 @@ class LoginPage extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () => Get.to(() => const NavigationMenu()),
+                    onPressed: () {
+                      controller.login(
+                        _emailController.text,
+                        _passwordController.text,
+                        context,
+                      );
+                    },
                     child: const Text(TTexts.signIn),
                   ),
                 ),
@@ -141,7 +170,8 @@ class LoginPage extends StatelessWidget {
                       child: Divider(height: 1),
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
                       child: const Text(TTexts.orSignInWith),
                     ),
                     const Expanded(
@@ -153,12 +183,31 @@ class LoginPage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    CircleAvatar(
-                      backgroundColor: const Color.fromARGB(211, 239, 237, 237),
-                      radius: screenWidth * 0.08, // Responsive icon size
-                      child: Image(
-                        image: const AssetImage(TImages.google),
-                        height: screenWidth * 0.08,
+                    InkWell(
+                      onTap: () async {
+                        final userCredential =
+                            await controller.signInWithGoogle();
+                        if (userCredential != null) {
+                          final user = userCredential.user!;
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                                content: Text('Welcome, ${user.displayName}!')),
+                          );
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => const NavigationMenu()),
+                          );
+                        }
+                      },
+                      child: CircleAvatar(
+                        backgroundColor:
+                            const Color.fromARGB(211, 239, 237, 237),
+                        radius: screenWidth * 0.08, // Responsive icon size
+                        child: Image(
+                          image: const AssetImage(TImages.google),
+                          height: screenWidth * 0.08,
+                        ),
                       ),
                     ),
                     CircleAvatar(

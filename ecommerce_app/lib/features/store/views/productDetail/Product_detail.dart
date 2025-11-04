@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:t_store/Screens/pages/productSliderImages.dart';
@@ -13,9 +14,13 @@ import 'package:t_store/utility/constants/size.dart';
 import 'package:t_store/utility/helpers/helper_functions.dart';
 
 class ProductDetail extends StatefulWidget {
-  ProductDetail({super.key, required this.firstProducts, required this.index});
+  const ProductDetail({
+    super.key,
+    required this.product,
+    required this.index,
+  });
 
-  List<Map<String, dynamic>> firstProducts;
+  final Map<String, dynamic> product; // 👈 Changed from List<Map> to Map
   final int index;
 
   @override
@@ -23,33 +28,27 @@ class ProductDetail extends StatefulWidget {
 }
 
 class _ProductDetailState extends State<ProductDetail> {
-  // Store the selected image
   late String selectedImage;
 
   @override
   void initState() {
     super.initState();
-    selectedImage = widget.firstProducts[widget.index]["product"]['name'];
+    final List<dynamic> images = widget.product['image'] ?? [];
+    selectedImage = images.isNotEmpty ? images[0] : '';
   }
 
   @override
   Widget build(BuildContext context) {
     final bool dark = THelperFunctions.isDarkMode(context);
-    final products = Get.find<ProductController>().allProducts;
-
-    // List of images for the horizontal slider
-    final List<String> imageList =
-        products[widget.index][products][widget.index]["image"];
+    final List<dynamic> imageList = widget.product['image'] ?? [];
 
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              // Product image with overlay
               Stack(
                 children: [
-                  // Main product image and horizontal slider
                   Column(
                     children: [
                       SizedBox(
@@ -58,10 +57,9 @@ class _ProductDetailState extends State<ProductDetail> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                               vertical: 8.0, horizontal: 16.0),
-                          child: Image.asset(
-                            selectedImage, // Display the selected image
-                            fit: BoxFit.contain,
-                          ),
+                          child: selectedImage.isNotEmpty
+                              ? Image.asset(selectedImage, fit: BoxFit.contain)
+                              : const SizedBox(),
                         ),
                       ),
                       SizedBox(
@@ -69,16 +67,14 @@ class _ProductDetailState extends State<ProductDetail> {
                         child: ListView.separated(
                           scrollDirection: Axis.horizontal,
                           itemCount: imageList.length,
-                          separatorBuilder: (_, __) => const SizedBox(
-                            width: TSizes.spaceBtwItems,
-                          ),
+                          separatorBuilder: (_, __) =>
+                              const SizedBox(width: TSizes.spaceBtwItems),
                           itemBuilder: (_, index) {
                             final image = imageList[index];
                             return GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  selectedImage =
-                                      image; // Update selected image
+                                  selectedImage = image;
                                 });
                               },
                               child: ProductSliderImages(
@@ -93,22 +89,20 @@ class _ProductDetailState extends State<ProductDetail> {
                     ],
                   ),
 
-                  // Custom AppBar overlayed
+                  // AppBar overlay
                   const Positioned(
                     top: 0,
                     left: 0,
                     right: 0,
                     child: CustomAppBar(
                       showBackArrow: true,
-                      actions: [
-                        FavouriteButton(),
-                      ],
+                      actions: [FavouriteButton()],
                     ),
                   ),
                 ],
               ),
 
-              // Container for details
+              // Product details
               Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
@@ -123,18 +117,13 @@ class _ProductDetailState extends State<ProductDetail> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Rating and share
                       const TRatingandShare(),
                       const SizedBox(height: TSizes.spaceBtwItems),
-
-                      // Price, status, brand
                       TProductMetaData(
-                        firstProducts: widget.firstProducts,
+                        product: widget.product,
                         index: widget.index,
                       ),
                       const SizedBox(height: TSizes.spaceBtwItems),
-
-                      // Product attributes
                       const ProductAttributes(),
                     ],
                   ),

@@ -6,16 +6,17 @@ import 'package:t_store/common/widgets/components/product_card/controller/produc
 class FeaturedBrandStore extends StatelessWidget {
   const FeaturedBrandStore({
     super.key,
-    required this.itemcount,
+    required this.products,
   });
-  final int itemcount;
+  // If you want to initialize products later, use 'late final'
+  final List<Map<String, dynamic>> products;
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(), // Disable scrolling
-      itemCount: itemcount,
+      itemCount: products.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2, // 2 items per row
         crossAxisSpacing: 10,

@@ -30,9 +30,10 @@ class WishlistScreen extends StatelessWidget {
           child: Column(
             children: [
               ProductGridView(
+                itemCount: 0,
                 itemBuilder: (_, index) => TProductCard(
                   index: index,
-                  firstProducts: const [],
+                  allProducts: const [],
                 ),
               )
             ],

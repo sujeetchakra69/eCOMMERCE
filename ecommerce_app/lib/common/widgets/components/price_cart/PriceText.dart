@@ -21,11 +21,24 @@ class Price_Text extends StatelessWidget {
         Text(
           sign + price,
           style: isLarge
-              ? Theme.of(context).textTheme.bodyLarge!.apply(
-                  fontSizeDelta: 6,
-                  decoration: lineThrough ? TextDecoration.lineThrough : null)
-              : Theme.of(context).textTheme.bodyMedium!.apply(
-                  decoration: lineThrough ? TextDecoration.lineThrough : null),
+              ? Theme.of(context)
+                  .textTheme
+                  .bodySmall!
+                  .apply(
+                    fontSizeDelta: 6,
+                    decoration: lineThrough ? TextDecoration.lineThrough : null,
+                  )
+                  .copyWith(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                      color: Colors.black)
+              : Theme.of(context)
+                  .textTheme
+                  .bodySmall!
+                  .apply(
+                      decoration:
+                          lineThrough ? TextDecoration.lineThrough : null)
+                  .copyWith(fontWeight: FontWeight.bold, fontSize: 12),
           overflow: TextOverflow.ellipsis,
           maxLines: 1,
           textAlign: TextAlign.left,

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:t_store/common/widgets/common_shapes.dart';
@@ -10,7 +12,6 @@ import 'package:t_store/common/widgets/components/project_component/brandverific
 import 'package:t_store/common/widgets/components/project_component/shadowCard.dart';
 import 'package:t_store/features/store/views/productDetail/Product_detail.dart';
 import 'package:t_store/utility/constants/colors.dart';
-import 'package:t_store/utility/constants/images_strings.dart';
 import 'package:t_store/utility/constants/size.dart';
 import 'package:t_store/utility/helpers/helper_functions.dart';
 
@@ -19,10 +20,12 @@ class Singlecardhorizontal extends StatelessWidget {
     super.key,
     required this.product,
     required this.brand,
+    required this.brandindex,
   });
 
-  final Map<String, dynamic> product; // ✅ Single product
+  final Map<String, dynamic> product;
   final String brand;
+  final int brandindex;
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +33,13 @@ class Singlecardhorizontal extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
+        debugger();
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => ProductDetail(
-              index: 0,
-              firstProducts: const [],
+              index: brandindex,
+              product: product,
             ),
           ),
         );
@@ -55,18 +59,18 @@ class Singlecardhorizontal extends StatelessWidget {
             children: [
               TCircleContainer(
                 showBorder: false,
-                width: 180,
-                height: 180,
+                width: 150,
+                height: 150,
                 backgroundColor: dark ? TColors.dark : TColors.light,
-                child: const Stack(
+                child: Stack(
                   children: [
                     TSlider(
-                      imageUrl: TImages.productImage2,
+                      imageUrl: product["image"][0] ?? '',
                       backgroundColor: Colors.white,
                       applyImageRadius: true,
                     ),
-                    DiscountCard(),
-                    Positioned(
+                    const DiscountCard(),
+                    const Positioned(
                       top: 0,
                       right: 0,
                       child: TCircularIcon(
@@ -83,7 +87,7 @@ class Singlecardhorizontal extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ProductTitleText(
-                      name: product["name"], 
+                      name: product["name"],
                       maxLines: 1,
                       smallSize: true,
                       colors: Colors.black,

@@ -12,16 +12,15 @@ class BrandCardStore extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 180, // Set a fixed height
       child: TCircleContainer(
         showBorder: true,
         child: Column(
           children: [
             // Here, you might want to ensure that TBrandCard has proper height constraints as well.
-            TBrandCard(
-              products: const [],
-              index: 0,
-            ),
+            // TBrandCard(
+            //   products: const [],
+            //   index: 0,
+            // ),
             Row(
               // Align items to the start
               children: images

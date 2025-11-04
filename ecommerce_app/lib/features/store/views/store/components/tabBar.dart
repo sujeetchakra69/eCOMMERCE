@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:t_store/common/widgets/Layout/Product_gridView.dart';
 import 'package:t_store/common/widgets/components/TCategories.dart';
 import 'package:t_store/common/widgets/components/product_card/product_card.dart';
-import 'package:t_store/features/store/views/store/components/BrandCardStore.dart';
+import 'package:t_store/features/store/views/store/components/brandCard.dart';
 import 'package:t_store/utility/constants/images_strings.dart';
 import 'package:t_store/utility/constants/size.dart';
 
@@ -49,9 +49,10 @@ class Tab_Bar extends StatelessWidget {
               ),
 
               ProductGridView(
+                itemCount: 0,
                 itemBuilder: (_, index) => TProductCard(
-                  index: index, firstProducts: [],
-                  
+                  index: index,
+                  allProducts: const [],
                 ),
               )
             ],

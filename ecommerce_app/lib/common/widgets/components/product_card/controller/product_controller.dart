@@ -10,12 +10,22 @@ class ProductController extends GetxController {
     };
   }).toList();
 
-  //all products
-  List<Map<String, dynamic>> allProducts = shoeData.map((brand) {
+  // all products
+  List<Map<String, dynamic>> brandProducts = shoeData.map((brand) {
     return {
       "brand": brand["brand"],
-      "products": brand["products"],
+      "product": brand["products"],
       "logo": brand["logo"],
     };
+  }).toList();
+  List<Map<String, dynamic>> allProducts = shoeData.expand((brand) {
+    // Map each product to include its brand and logo
+    return (brand["products"] as List).map((product) {
+      return {
+        "brand": brand["brand"],
+        "logo": brand["logo"],
+        "product": product, // each individual product
+      };
+    });
   }).toList();
 }

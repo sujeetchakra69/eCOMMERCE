@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:t_store/common/widgets/components/product_card/controller/product_controller.dart';
 import 'package:t_store/features/store/views/store/components/storegridView.dart';
 import 'package:t_store/common/widgets/appBar.dart';
 import 'package:t_store/common/widgets/cartIcon.dart';
 
 class StoreScreen extends StatelessWidget {
-  StoreScreen({super.key, required this.products, required this.index});
-  List<Map<String, dynamic>> products;
-  final int index;
+  StoreScreen({super.key,});
+ 
 
   @override
   Widget build(BuildContext context) {
+    Get.put(ProductController());
+    final ProductController productController = Get.find<ProductController>();
     return Scaffold(
       appBar: CustomAppBar(
         showBackArrow: true,
@@ -24,8 +28,7 @@ class StoreScreen extends StatelessWidget {
         ],
       ),
       body: GridViewStore(
-        products: products,
-        index: index,
+        products: productController.allProducts,
       ),
     );
   }
